@@ -1,0 +1,16 @@
+﻿using Newtonsoft.Json;
+
+namespace CRM_Api.Models
+{
+    public class Customer
+    {
+        [JsonProperty("id")]
+        public string id { get; set; } = Guid.NewGuid().ToString();
+        public string Name { get; set; } = "";
+        public string Title { get; set; } = "";
+        public string Phone { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Address { get; set; } = "";
+        public Seller Seller { get; set; } = new Seller();
+    }
+}
