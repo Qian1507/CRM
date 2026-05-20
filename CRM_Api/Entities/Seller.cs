@@ -1,4 +1,4 @@
-﻿namespace CRM_Api.Models
+﻿namespace CRM.Api.Entities
 {
     public class Seller
     {

@@ -1,4 +1,4 @@
-﻿using CRM_Api.Models;
+﻿using CRM.Api.Entities;
 
 namespace CRM_Api.Interfaces
 {

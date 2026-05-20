@@ -1,7 +1,126 @@
-﻿namespace CRM_Api.Repos
-{
-    public class CustomerRepo
-    {
+﻿using CRM_Api.Interfaces;
+using CRM.Api.Entities;
+using Microsoft.Azure.Cosmos;
+using System.ComponentModel;
+using Container = Microsoft.Azure.Cosmos.Container;
 
+namespace CRM_Api.Repos
+{
+    public class CustomerRepo:ICustomerRepo
+    {
+        private readonly Container _container;
+
+        public CustomerRepo(CosmosClient client)
+        {
+            _container = client
+            .GetDatabase("CRMDB")
+            .GetContainer("Customers");
+        }
+
+        // CREATE
+        public async Task<Customer> AddAsync(Customer customer)
+        {
+            var response = await _container.CreateItemAsync(
+            customer,
+            new PartitionKey(customer.Id));
+
+            return response.Resource;
+        }
+
+
+        //GET ALL
+        public async Task<IEnumerable<Customer>> GetAllAsync()
+        {
+            var query = new QueryDefinition("SELECT * FROM c");
+
+            var iterator = _container.GetItemQueryIterator<Customer>(query);
+
+            List<Customer> result = new();
+
+            while (iterator.HasMoreResults)
+            {
+                var response = await iterator.ReadNextAsync();
+                result.AddRange(response);
+            }
+
+            return result;
+        }
+
+        //GET BY ID
+        public async Task<Customer?> GetByIdAsync(string id)
+        {
+            try
+            {
+                var response = await _container.ReadItemAsync<Customer>(
+                    id,
+                    new PartitionKey(id));
+
+                return response.Resource;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+        }
+
+        // UPDATE
+        public async Task<Customer?> UpdateAsync(string id, Customer customer)
+        {
+            customer.Id = id;
+
+            var response = await _container.UpsertItemAsync(
+                customer,
+                new PartitionKey(id));
+
+            return response.Resource;
+        }
+
+
+        // DELETE
+        public async Task<bool> DeleteAsync(string id)
+        {
+            try
+            {
+                await _container.DeleteItemAsync<Customer>(
+               id,
+               new PartitionKey(id));
+
+                return true;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return false;
+            }
+        }
+
+
+        //SEARCH
+
+        public async Task<IEnumerable<Customer>> SearchAsync(string? name, string? sellerName)
+        {
+            var query = new QueryDefinition(@"
+                SELECT * FROM c
+                WHERE
+                (@name = null OR CONTAINS(c.Name, @name, true))
+                AND
+                (@sellerName = null OR CONTAINS(c.Seller.Name, @sellerName, true))
+             ")
+            .WithParameter("@name", name)
+            .WithParameter("@sellerName", sellerName);
+
+            var iterator = _container.GetItemQueryIterator<Customer>(query);
+
+            List<Customer> result = new();
+
+            while (iterator.HasMoreResults)
+            {
+                var response = await iterator.ReadNextAsync();
+                result.AddRange(response);
+            }
+
+            return result;
+        }
+
+       
     }
 }
