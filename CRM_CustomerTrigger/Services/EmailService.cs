@@ -62,6 +62,12 @@ namespace CRM_Function.Services
                 2525,
                 SecureSocketOptions.StartTls);
 
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                throw new Exception("Mailtrap credentials missing");
+            }
+
+
             await smtp.AuthenticateAsync(username,password);
 
             await smtp.SendAsync(email);
