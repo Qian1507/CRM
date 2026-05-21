@@ -20,9 +20,8 @@ namespace CRM_Function.Services
 
         public async Task SendEmailAsync(Customer customer)
         {
-            var username = _config["Mailtrap:Username"];
-            var password = _config["Mailtrap:Password"];
-
+            var username = _config["MailtrapUsername"];
+            var password = _config["MailtrapPassword"];
 
             var email = new MimeMessage();
 
