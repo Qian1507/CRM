@@ -1,4 +1,4 @@
 <Solution>
   <Project Path="CRM_Api/CRM_Api.csproj" />
-  <Project Path="CRM_Function/CRM_Function.csproj" Id="7bad3c5d-cfda-4015-92b0-261c2ef7d62f" />
+  <Project Path="CRM_CustomerTrigger/CRM_CustomerTrigger.csproj" Id="c59b07c3-d574-4714-829e-9fecebb38014" />
 </Solution>

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CRM_Function.Data.Entities
+namespace CRM_CustomerTrigger.Data.Entities
 {
     public class Customer
     {

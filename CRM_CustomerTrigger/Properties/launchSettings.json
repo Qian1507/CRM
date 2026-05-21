@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "CRM_CustomerTrigger": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7013",
+      "launchBrowser": false
+    }
+  }
+}
