@@ -1,4 +1,4 @@
-using CRM_Function;
+using CRM_Function.Services;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +17,10 @@ builder.ConfigureFunctionsWebApplication();
 
 
 
+
+
+
+// dependency injection
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Build().Run();
