@@ -8,8 +8,10 @@ namespace CRM_Api.Repos
 {
     public class CustomerRepo:ICustomerRepo
     {
+        // Reference to the Cosmos DB container used for customer operations
         private readonly Container _container;
 
+        // Constructor to initialize the Cosmos DB container using the provided CosmosClient
         public CustomerRepo(CosmosClient client)
         {
             _container = client

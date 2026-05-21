@@ -7,8 +7,10 @@ namespace CRM_Api.Endpoints
 {
     public static class CustomerEndpoints
     {
+        // Extension method to register all customer endpoints
         public static void MapCustomerEndpoints(this IEndpointRouteBuilder app)
         {
+            // Create endpoint group with base route and tag
             var group = app.MapGroup("/api/customers").WithTags("Customers");
 
             group.MapGet("/", GetAllCustomers);
@@ -46,13 +48,13 @@ namespace CRM_Api.Endpoints
         private static async Task<IResult> UpdateCustomer(string id, Customer customer, ICustomerRepo repo)
         {
             var updatedCustomer = await repo.UpdateAsync(id, customer);
-            return updatedCustomer is not null ? Results.Ok(updatedCustomer) : Results.NotFound();
+            return updatedCustomer is not null ? Results.Ok(updatedCustomer) : Results.NotFound(); // Return updated customer or 404 if not found
         }
 
         private static async Task<IResult> DeleteCustomer(string id, ICustomerRepo repo)
         {
             var deleted = await repo.DeleteAsync(id);
-            return deleted ? Results.NoContent() : Results.NotFound();
+            return deleted ? Results.NoContent() : Results.NotFound();// Return 204 if deleted, otherwise 404
         }
     }
 }

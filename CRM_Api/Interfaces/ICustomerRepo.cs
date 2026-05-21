@@ -4,6 +4,8 @@ namespace CRM_Api.Interfaces
 {
     public interface ICustomerRepo
     {
+
+        // "Async" indicates the method is asynchronous and returns a Task.
         Task<IEnumerable<Customer>> GetAllAsync();
         Task<Customer> AddAsync(Customer customer);
         Task<Customer?> GetByIdAsync(string id);
