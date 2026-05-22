@@ -18,3 +18,7 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 
 
 builder.Build().Run();
+
+
+// To run Azurite (Azure Storage Emulator):
+//azurite --silent --location ./azurite-data --debug ./azurite-debug.log
